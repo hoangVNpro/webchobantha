@@ -309,35 +309,23 @@
     </style>
 </head>
 <body>
-    <!-- Video nền -->
     <video id="video" class="background" muted loop playsinline>
         <source src="https://r2.zyo.lol/background_efe441534ad5.mp4" type="video/mp4">
     </video>
-
-    <!-- Overlay click để bắt đầu -->
     <div class="overlay_audio" id="overlay" onclick="startExperience()">
         <p class="text">Click</p>
     </div>
-
-    <!-- Profile Card -->
     <div class="content" id="content">
         <div class="profile-card">
-            <!-- Avatar -->
             <div class="avatar-container">
                 <div class="avatar-wrapper">
                     <img src="https://i.ibb.co/SXp4D552/hh.png" alt="Avatar" class="avatar" id="avatar">
                 </div>
             </div>
-
-            <!-- Tên -->
             <h1 class="profile-name" id="profileName">1</h1>
-            
-            <!-- Bio ngắn -->
             <p class="profile-bio" id="profileBio">
                 1
             </p>
-
-            <!-- Sở thích -->
             <div class="profile-section">
                 <div class="section-title">⭐ Sở thích</div>
                 <div class="hobbies-list" id="hobbiesList">
@@ -348,8 +336,6 @@
                     <span class="hobby-tag">Coding</span>
                 </div>
             </div>
-
-            <!-- Thành tích -->
             <div class="profile-section">
                 <div class="section-title">🏆 Thành tích</div>
                 <ul class="achievements-list" id="achievementsList">
@@ -367,8 +353,6 @@
                     </li>
                 </ul>
             </div>
-
-            <!-- Social Links -->
             <div class="social-links">
                 <a href="https://www.facebook.com/nguyen.inh.viet.hoang.2025" target="_blank" class="social-btn" id="facebookLink">
                     <span class="social-icon">😎</span>
@@ -383,7 +367,6 @@
     </div>
 
     <script>
-        // Hàm bắt đầu trải nghiệm
         function startExperience() {
             const overlay = document.getElementById('overlay');
             const video = document.getElementById('video');
@@ -399,8 +382,6 @@
 
             initCursorEffect();
         }
-
-        // Hiệu ứng chuột ma
         function initCursorEffect() {
             const canvas = document.createElement('canvas');
             const ctx = canvas.getContext('2d');
@@ -482,16 +463,9 @@
             animate();
         }
 
-        // ========================================
-        // PHẦN BẠN CẦN CHỈNH SỬA
-        // ========================================
-        
-        // Thay đổi thông tin profile của bạn tại đây:
-        document.getElementById('avatar').src = 'https://i.ibb.co/SXp4D552/hh.png'; // Thay bằng link ảnh của bạn
+        document.getElementById('avatar').src = 'https://i.ibb.co/SXp4D552/hh.png'; 
         document.getElementById('profileName').textContent = 'Nguyễn Đình Việt Hoàng';
         document.getElementById('profileBio').textContent = 'mình rất thích tìm hiểu về công nghệ';
-        
-        // Thay đổi sở thích
         document.getElementById('hobbiesList').innerHTML = `
             <span class="hobby-tag">xem phim</span>
             <span class="hobby-tag">chơi rap</span>
@@ -499,8 +473,6 @@
             <span class="hobby-tag">Âm nhạc rap</span>
             <span class="hobby-tag">Coding</span>
         `;
-        
-        // Thay đổi thành tích
         document.getElementById('achievementsList').innerHTML = `
             <li class="achievement-item">
                 <span class="achievement-icon">-</span>
@@ -515,8 +487,6 @@
                 <span>xxxxxxxxxx</span>
             </li>
         `;
-        
-        // Thay đổi link Facebook và Instagram
         document.getElementById('facebookLink').href = 'https://www.facebook.com/nguyen.inh.viet.hoang.2025';
         document.getElementById('instagramLink').href = 'https://www.instagram.com/viethoang24109/';
     </script>
