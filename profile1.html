@@ -1,0 +1,524 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Card</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            cursor: url("https://r2.zyo.lol/cursor_url_2c8437bbd547.cur") 16 16, auto !important;
+        }
+
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background: #000;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .background {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            z-index: 1;
+        }
+
+        .overlay_audio {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            cursor: pointer;
+            transition: opacity 0.3s ease;
+        }
+
+        .overlay_audio .text {
+            color: white;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.05); }
+        }
+
+        .content {
+            position: relative;
+            z-index: 2;
+            display: none;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            padding: 20px;
+        }
+
+        .profile-card {
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(20px);
+            border-radius: 30px;
+            padding: 40px;
+            max-width: 450px;
+            width: 100%;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.5),
+                        0 0 100px rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: fadeIn 0.5s ease;
+            position: relative;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent, rgba(255, 255, 255, 0.03), transparent);
+            animation: shimmer 3s infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .avatar-container {
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .avatar-wrapper {
+            position: relative;
+            display: inline-block;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-8px); }
+        }
+
+        .avatar {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+            position: relative;
+            z-index: 1;
+        }
+
+        .avatar::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent 70%);
+            animation: pulse-glow 2s ease-in-out infinite;
+            z-index: -1;
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.3; }
+            50% { transform: translate(-50%, -50%) scale(1.2); opacity: 0.6; }
+        }
+
+        .avatar:hover {
+            transform: scale(1.08) rotate(3deg);
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.5);
+        }
+
+        .profile-name {
+            font-size: 32px;
+            font-weight: bold;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-bio {
+            font-size: 16px;
+            color: rgba(255, 255, 255, 0.8);
+            text-align: center;
+            margin-bottom: 30px;
+            line-height: 1.6;
+            position: relative;
+            z-index: 1;
+        }
+
+        .profile-section {
+            margin-bottom: 25px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-title {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 10px;
+            font-weight: 600;
+        }
+
+        .section-content {
+            color: #fff;
+            font-size: 16px;
+            line-height: 1.8;
+            padding-left: 10px;
+        }
+
+        .hobbies-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .hobby-tag {
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            color: #fff;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .hobby-tag:hover {
+            background: rgba(255, 255, 255, 0.25);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+        }
+
+        .achievements-list {
+            list-style: none;
+        }
+
+        .achievement-item {
+            padding: 10px 0;
+            color: #fff;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .achievement-item:last-child {
+            border-bottom: none;
+        }
+
+        .achievement-item:hover {
+            padding-left: 10px;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+        }
+
+        .achievement-icon {
+            font-size: 20px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .social-btn {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 24px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 25px;
+            color: #fff;
+            text-decoration: none;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .social-btn:hover {
+            background: rgba(255, 255, 255, 0.2);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-4px);
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.3);
+        }
+
+        .social-icon {
+            font-size: 24px;
+        }
+
+        @media (max-width: 768px) {
+            .profile-card {
+                padding: 30px 20px;
+            }
+
+            .profile-name {
+                font-size: 28px;
+            }
+
+            .social-links {
+                flex-direction: column;
+            }
+
+            .social-btn {
+                width: 100%;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Video nền -->
+    <video id="video" class="background" muted loop playsinline>
+        <source src="https://r2.zyo.lol/background_efe441534ad5.mp4" type="video/mp4">
+    </video>
+
+    <!-- Overlay click để bắt đầu -->
+    <div class="overlay_audio" id="overlay" onclick="startExperience()">
+        <p class="text">Click</p>
+    </div>
+
+    <!-- Profile Card -->
+    <div class="content" id="content">
+        <div class="profile-card">
+            <!-- Avatar -->
+            <div class="avatar-container">
+                <div class="avatar-wrapper">
+                    <img src="https://i.ibb.co/SXp4D552/hh.png" alt="Avatar" class="avatar" id="avatar">
+                </div>
+            </div>
+
+            <!-- Tên -->
+            <h1 class="profile-name" id="profileName">1</h1>
+            
+            <!-- Bio ngắn -->
+            <p class="profile-bio" id="profileBio">
+                1
+            </p>
+
+            <!-- Sở thích -->
+            <div class="profile-section">
+                <div class="section-title">⭐ Sở thích</div>
+                <div class="hobbies-list" id="hobbiesList">
+                    <span class="hobby-tag">Đọc sách</span>
+                    <span class="hobby-tag">Du lịch</span>
+                    <span class="hobby-tag">Nhiếp ảnh</span>
+                    <span class="hobby-tag">Âm nhạc</span>
+                    <span class="hobby-tag">Coding</span>
+                </div>
+            </div>
+
+            <!-- Thành tích -->
+            <div class="profile-section">
+                <div class="section-title">🏆 Thành tích</div>
+                <ul class="achievements-list" id="achievementsList">
+                    <li class="achievement-item">
+                        <span class="achievement-icon">⭐</span>
+                        <span>Thành tích 1 của bạn</span>
+                    </li>
+                    <li class="achievement-item">
+                        <span class="achievement-icon">🎓</span>
+                        <span>Thành tích 2 của bạn</span>
+                    </li>
+                    <li class="achievement-item">
+                        <span class="achievement-icon">💼</span>
+                        <span>Thành tích 3 của bạn</span>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Social Links -->
+            <div class="social-links">
+                <a href="https://www.facebook.com/nguyen.inh.viet.hoang.2025" target="_blank" class="social-btn" id="facebookLink">
+                    <span class="social-icon">😎</span>
+                    <span>Facebook</span>
+                </a>
+                <a href="https://www.instagram.com/viethoang24109/" target="_blank" class="social-btn" id="instagramLink">
+                    <span class="social-icon">🐉</span>
+                    <span>Instagram</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Hàm bắt đầu trải nghiệm
+        function startExperience() {
+            const overlay = document.getElementById('overlay');
+            const video = document.getElementById('video');
+            const content = document.getElementById('content');
+
+            overlay.style.opacity = '0';
+            setTimeout(() => {
+                overlay.style.display = 'none';
+            }, 300);
+
+            video.play();
+            content.style.display = 'flex';
+
+            initCursorEffect();
+        }
+
+        // Hiệu ứng chuột ma
+        function initCursorEffect() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            
+            canvas.style.cssText = `
+                position: fixed;
+                top: 0;
+                left: 0;
+                pointer-events: none;
+                z-index: 999;
+            `;
+            
+            document.body.appendChild(canvas);
+            
+            let width = window.innerWidth;
+            let height = window.innerHeight;
+            canvas.width = width;
+            canvas.height = height;
+
+            const particles = [];
+            const lifeSpan = 40;
+            const maxDelay = 50;
+            const minDelay = 5;
+            let lastTime = Date.now();
+            let interval = Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
+
+            const cursorImg = new Image();
+            cursorImg.src = 'https://r2.zyo.lol/cursor_url_2c8437bbd547.cur';
+
+            class Particle {
+                constructor(x, y) {
+                    this.x = x;
+                    this.y = y;
+                    this.life = lifeSpan;
+                    this.maxLife = lifeSpan;
+                }
+
+                update() {
+                    this.life--;
+                }
+
+                draw() {
+                    const opacity = Math.max(this.life / this.maxLife, 0);
+                    ctx.globalAlpha = opacity;
+                    ctx.drawImage(cursorImg, this.x - 8, this.y - 8, 16, 16);
+                }
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                for (let i = particles.length - 1; i >= 0; i--) {
+                    particles[i].update();
+                    particles[i].draw();
+                    
+                    if (particles[i].life <= 0) {
+                        particles.splice(i, 1);
+                    }
+                }
+
+                requestAnimationFrame(animate);
+            }
+
+            document.addEventListener('mousemove', (e) => {
+                if (lastTime + interval <= Date.now()) {
+                    particles.push(new Particle(e.clientX, e.clientY));
+                    lastTime = Date.now();
+                    interval = Math.floor(Math.random() * (maxDelay - minDelay + 1)) + minDelay;
+                }
+            });
+
+            window.addEventListener('resize', () => {
+                width = window.innerWidth;
+                height = window.innerHeight;
+                canvas.width = width;
+                canvas.height = height;
+            });
+
+            animate();
+        }
+
+        // ========================================
+        // PHẦN BẠN CẦN CHỈNH SỬA
+        // ========================================
+        
+        // Thay đổi thông tin profile của bạn tại đây:
+        document.getElementById('avatar').src = 'https://i.ibb.co/SXp4D552/hh.png'; // Thay bằng link ảnh của bạn
+        document.getElementById('profileName').textContent = 'Nguyễn Đình Việt Hoàng';
+        document.getElementById('profileBio').textContent = 'mình rất thích tìm hiểu về công nghệ';
+        
+        // Thay đổi sở thích
+        document.getElementById('hobbiesList').innerHTML = `
+            <span class="hobby-tag">xem phim</span>
+            <span class="hobby-tag">chơi rap</span>
+            <span class="hobby-tag">đi lượn</span>
+            <span class="hobby-tag">Âm nhạc rap</span>
+            <span class="hobby-tag">Coding</span>
+        `;
+        
+        // Thay đổi thành tích
+        document.getElementById('achievementsList').innerHTML = `
+            <li class="achievement-item">
+                <span class="achievement-icon">-</span>
+                <span>xxxxxxxxxxx</span>
+            </li>
+            <li class="achievement-item">
+                <span class="achievement-icon">-</span>
+                <span>xxxxxxxx</span>
+            </li>
+            <li class="achievement-item">
+                <span class="achievement-icon">-</span>
+                <span>xxxxxxxxxx</span>
+            </li>
+        `;
+        
+        // Thay đổi link Facebook và Instagram
+        document.getElementById('facebookLink').href = 'https://www.facebook.com/nguyen.inh.viet.hoang.2025';
+        document.getElementById('instagramLink').href = 'https://www.instagram.com/viethoang24109/';
+    </script>
+</body>
+</html>
